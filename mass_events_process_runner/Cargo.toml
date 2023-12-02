@@ -1,0 +1,56 @@
+[package]
+name = "mass_events_process_runner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0", features = [
+    "tokio",
+    "tower-log",
+    "query",
+    "json",
+    "macros",
+] }
+tokio = { version = "1", features = ["full"] }
+tracing = "0"
+uuid = { version = "1", features = ["v4", "serde", "fast-rng"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sqlx = { version = "0.7", features = [
+    "runtime-tokio-rustls",
+    "any",
+    "postgres",
+    "chrono",
+    "migrate",
+    "macros",
+    "uuid",
+] }
+dotenvy = "0.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0"
+serde_merge = "0"
+chrono = { version = "0.4", features = ["serde"] }
+cron = { version = "0" }
+utoipa = { version = "4", features = [
+    "axum_extras",
+    "chrono",
+    "uuid",
+    "openapi_extensions",
+] }
+utoipa-swagger-ui = { version = "5", features = ["axum"] }
+hyper = { version = "1", features = ["server"] }
+clap = { version = "4", features = ["derive", "env"] }
+tokio-cron-scheduler = {version = "0", features = ["signal", "has_bytes"]}
+tower-http = { version = "0", features = ["add-extension", "trace"] }
+askama = "0"
+
+[dev-dependencies]
+tokio-macros = { version = "2" }
+tower = { version = "0", features = ["full"] }
+hyper = { version = "1", features = ["full"] }
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+strip = "symbols"

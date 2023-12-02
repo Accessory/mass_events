@@ -1,0 +1,21 @@
+INSERT INTO public.queues (name) VALUES ('{{ queue_name }}');
+CREATE TABLE IF NOT EXISTS queues.{{ queue_name }}_queue (
+    id uuid NOT NULL,
+    context jsonb NOT NULL,
+    "position" bigserial NOT NULL,
+    CONSTRAINT {{ queue_name }}_queue_pkey PRIMARY KEY (id)
+);
+CREATE INDEX IF NOT EXISTS {{ queue_name }}_position_index ON queues.{{ queue_name }}_queue USING btree (position ASC NULLS LAST) TABLESPACE pg_default;
+CREATE TABLE IF NOT EXISTS queues.{{ queue_name }}_info (
+    key character varying COLLATE pg_catalog."default" NOT NULL,
+    value jsonb NOT NULL,
+    CONSTRAINT {{ queue_name }}_info_pkey PRIMARY KEY (key)
+);
+INSERT INTO queues.{{ queue_name }}_info(key, value)
+VALUES ('position', '0');
+CREATE TABLE IF NOT EXISTS queues.{{ queue_name }}_partition (
+    id uuid NOT NULL,
+    "from" bigint NOT NULL,
+    "to" bigint NOT NULL,
+    CONSTRAINT {{ queue_name }}_partition_pkey PRIMARY KEY (id)
+);

@@ -1,0 +1,4 @@
+DROP TABLE queues.{{ queue_name }}_info;
+DROP TABLE queues.{{ queue_name }}_partition;
+DROP TABLE queues.{{ queue_name }}_queue;
+DELETE FROM public.queues WHERE name = '{{ queue_name }}';

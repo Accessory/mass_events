@@ -3,11 +3,9 @@
 mod app_state;
 mod configuration;
 mod controller;
-mod models;
 mod open_api;
 mod service;
 mod templates;
-mod utils;
 
 use crate::controller::{process_controller, queue_controller};
 use crate::service::process_service::ProcessService;

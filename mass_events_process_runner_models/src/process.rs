@@ -13,3 +13,7 @@ pub struct AddProcessToQueueRequest {
     pub queue: String,
     pub process: serde_json::Value,
 }
+
+impl AddProcessToQueueRequest {
+    pub fn new(queue: String, process: serde_json::Value) -> Self { Self { queue, process } }
+}

@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
+use mass_events_process_runner_models::process::Process;
+use mass_events_utils::db_utils::{self, TransactionObject};
 use serde_json::json;
 use sqlx::{Error, Pool, Postgres};
 use uuid::Uuid;
-
-use crate::{models::process::Process, utils::db_utils::{self, TransactionObject}};
 
 use super::queue_service::QueueService;
 
@@ -35,8 +35,7 @@ impl ProcessService {
     pub async fn get_process(&self, queue: &str) -> Result<Option<Process>, ProcessError> {
         self.does_queue_exists(queue).await?;
 
-        let closure =
-        async move |tx: TransactionObject| -> Result<Option<Process>, sqlx::Error> {
+        let closure = async move |tx: TransactionObject| -> Result<Option<Process>, sqlx::Error> {
             let conn = tx.get_connection_ref();
             // let mut conn = unsafe { ptr::read_volatile(tx) };
             let table_info_name = format!("queues.{queue}_info");

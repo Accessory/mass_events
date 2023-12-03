@@ -1,4 +1,4 @@
-use crate::utils::validate_trait::Validate;
+use mass_events_utils::validate_trait::Validate;
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
@@ -10,6 +10,10 @@ pub struct Queue {
 #[derive(Serialize, Deserialize, ToSchema)]
 pub struct QueueRequest {
     pub queue: String,
+}
+
+impl QueueRequest {
+    pub fn new(queue: String) -> Self { Self { queue } }
 }
 
 impl Validate for QueueRequest {

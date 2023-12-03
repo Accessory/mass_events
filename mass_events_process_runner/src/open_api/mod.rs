@@ -1,5 +1,4 @@
 use crate::controller;
-use crate::models;
 use axum::response::Redirect;
 use utoipa::OpenApi;
 
@@ -18,10 +17,10 @@ use utoipa::OpenApi;
         (name = "controller::queue_controller", description = "The queue controller with the neccessary endpoints to controll the queues.")
     ),
     components(schemas(
-        models::queue::Queue,
-        models::queue::QueueRequest,
-        models::process::Process,
-        models::process::AddProcessToQueueRequest,
+        mass_events_process_runner_models::queue::Queue,
+        mass_events_process_runner_models::queue::QueueRequest,
+        mass_events_process_runner_models::process::Process,
+        mass_events_process_runner_models::process::AddProcessToQueueRequest,
         ))
 )]
 pub struct ApiDoc;

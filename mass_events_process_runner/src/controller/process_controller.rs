@@ -7,12 +7,12 @@ use axum::{
     routing::post,
     Json, Router,
 };
+use mass_events_process_runner_models::{process::AddProcessToQueueRequest, queue::QueueRequest};
+use mass_events_utils::return_utils::log_return_internal_server_error;
 use serde_json::json;
 
 use crate::{
-    models::{process::AddProcessToQueueRequest, queue::QueueRequest},
     service::process_service::{ProcessError, ProcessService},
-    utils::return_utils::log_return_internal_server_error,
 };
 
 pub fn new_router(process_service: Arc<ProcessService>) -> Router {

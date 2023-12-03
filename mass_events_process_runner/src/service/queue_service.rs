@@ -1,12 +1,12 @@
 use askama::Template;
+use mass_events_process_runner_models::queue::Queue;
+use mass_events_utils::db_utils;
 use sqlx::{Error, Pool, Postgres};
 
 use crate::{
-    models::queue::Queue,
     templates::sql::{
         create_queue_template::CreateQueueTemplate, delete_queue_template::DeleteQueueTemplate,
     },
-    utils::db_utils,
 };
 
 pub struct QueueService {

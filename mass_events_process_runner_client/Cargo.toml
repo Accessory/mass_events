@@ -1,0 +1,20 @@
+[package]
+name = "mass_events_process_runner_client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# mass_events_commons
+mass_events_process_runner_models = {path = "../mass_events_process_runner_models"}
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+strip = "symbols"
+

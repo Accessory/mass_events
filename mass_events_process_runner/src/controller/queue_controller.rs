@@ -6,11 +6,11 @@ use axum::{
     routing::{get, delete, post},
     Json, Router,
 };
+use mass_events_process_runner_models::queue::{QueueRequest, Queue};
+use mass_events_utils::{validate_trait::Validate, return_utils::log_return_internal_server_error};
 
 use crate::{
-    models::queue::{Queue, QueueRequest},
     service::queue_service::QueueService,
-    utils::{return_utils::log_return_internal_server_error, validate_trait::Validate},
 };
 
 pub fn new_router(queue_service: Arc<QueueService>) -> Router {

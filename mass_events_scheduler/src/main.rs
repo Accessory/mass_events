@@ -12,6 +12,7 @@ use crate::service::scheduler_service::SchedulerService;
 use axum::{response::Redirect, routing::get, Router};
 use clap::Parser;
 use configuration::Configuration;
+use mass_events_process_runner_client::ProcessRunnerClient;
 use serde_merge::omerge;
 use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 use sqlx::ConnectOptions;
@@ -27,6 +28,7 @@ use std::{fs::File, io::BufReader, sync::Arc, time::Duration};
 use crate::open_api::ApiDoc;
 use crate::{app_state::AppState, configuration::FileConfiguration};
 
+// #[tokio::main]
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
@@ -59,7 +61,14 @@ async fn main() {
         state: app_state.clone(),
     });
 
-    init_scheduler(app_state, scheduler_service.clone()).await;
+    let process_runner_client = Arc::new(ProcessRunnerClient::new("http://localhost:8456"));
+
+    init_scheduler(
+        app_state,
+        scheduler_service.clone(),
+        process_runner_client.clone(),
+    )
+    .await;
 
     // build our application with some routes
     let app = Router::new()

@@ -24,7 +24,7 @@ sqlx = { version = "0.7", features = [
     "macros",
     "uuid",
 ] }
-dotenvy = "0.15"
+dotenvy = "0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0"

@@ -1,9 +1,11 @@
 use std::{collections::HashMap, sync::Arc};
 
+use mass_events_process_runner_client::ProcessRunnerClient;
+use serde_json::json;
 use sqlx::{Pool, Postgres};
 use tokio::sync::RwLock;
 use tokio_cron_scheduler::{Job, JobScheduler};
-use tracing::info;
+use tracing::{debug, info, warn};
 
 use crate::{entities::scheduler_entity::Schedule, service::scheduler_service::SchedulerService};
 
@@ -32,7 +34,11 @@ impl AppState {
     }
 }
 
-pub async fn init_scheduler(app_state: Arc<RwLock<AppState>>, scheduler_service: Arc<SchedulerService>) {
+pub async fn init_scheduler(
+    app_state: Arc<RwLock<AppState>>,
+    scheduler_service: Arc<SchedulerService>,
+    process_runner_client: Arc<ProcessRunnerClient>,
+) {
     let mut borrow = app_state.write().await;
     let schedules: Vec<Schedule> = sqlx::query_as("SELECT * FROM public.schedules")
         .fetch_all(&borrow.db)
@@ -40,7 +46,7 @@ pub async fn init_scheduler(app_state: Arc<RwLock<AppState>>, scheduler_service:
         .expect("Could not get the stored Schedules");
 
     for schedule in schedules {
-        let new_job = create_new_job(&schedule, &scheduler_service);
+        let new_job = create_new_job(&schedule, &scheduler_service, &process_runner_client);
         borrow.job_db_map.insert(new_job.guid(), schedule.id);
         borrow.db_job_map.insert(schedule.id, new_job.guid());
         borrow
@@ -57,10 +63,16 @@ pub async fn init_scheduler(app_state: Arc<RwLock<AppState>>, scheduler_service:
         .expect("Failed to start scheduler.");
 }
 
-fn create_new_job(schedule: &Schedule, scheduler_service: &Arc<SchedulerService>) -> Job {
+fn create_new_job(
+    schedule: &Schedule,
+    scheduler_service: &Arc<SchedulerService>,
+    process_runner_client: &Arc<ProcessRunnerClient>,
+) -> Job {
     let ss1 = scheduler_service.clone();
+    let prc1 = process_runner_client.clone();
     Job::new_async(schedule.cron_line.as_str(), move |uuid, mut l| {
         let ss2 = ss1.clone();
+        let prc2 = prc1.clone();
         Box::pin(async move {
             let next_tick = l
                 .next_tick_for_job(uuid)
@@ -68,8 +80,22 @@ fn create_new_job(schedule: &Schedule, scheduler_service: &Arc<SchedulerService>
                 .expect("Could not get next tick from job")
                 .expect("Next tick was empty.");
             info!("Running job with id: {uuid}. Next tick at: {next_tick}");
-            let schedule: Schedule = ss2.get_schedule_from_job_id(&uuid).await.expect("Failed to get Schedule.").expect("Schedule not found by JobId: {uuid}");
-            info!("Running Schedule with id {}. Executing the command {}", schedule.id, schedule.command);
+            let schedule: Schedule = ss2
+                .get_schedule_from_job_id(&uuid)
+                .await
+                .expect("Failed to get Schedule.")
+                .expect("Schedule not found by JobId: {uuid}");
+            debug!(
+                "Running Schedule with id {}. Adding command to queue {}",
+                schedule.id, schedule.command
+            );
+            match prc2
+                .post_add_process("test", json!({"command": schedule.command}))
+                .await
+            {
+                Ok(_) => info!("Command added!"),
+                Err(err) => warn!("Error adding command to queue: {:?}", err),
+            };
         })
     })
     .expect("Failed to create job")

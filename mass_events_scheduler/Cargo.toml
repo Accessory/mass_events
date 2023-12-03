@@ -40,8 +40,11 @@ utoipa = { version = "4", features = [
 utoipa-swagger-ui = { version = "5", features = ["axum"] }
 hyper = { version = "1", features = ["server"] }
 clap = { version = "4", features = ["derive", "env"] }
-tokio-cron-scheduler = {version = "0", features = ["signal", "has_bytes"]}
+tokio-cron-scheduler = { version = "0", features = ["signal", "has_bytes"] }
 tower-http = { version = "0", features = ["add-extension", "trace"] }
+
+# mass_events_commons
+mass_events_process_runner_client = { path = "../mass_events_process_runner_client" }
 
 [dev-dependencies]
 tokio-macros = { version = "2" }

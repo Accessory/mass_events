@@ -14,15 +14,14 @@ async fn main() -> Result<(), ProcessRunnerClientError> {
     let client = ProcessRunnerClient::new(&configuration.mass_events_process_runner_base_url);
 
     loop {
-        let value = client.post_get_process(&"test").await?;
+        let value = client.post_get_process("test").await?;
         if let Some(object) = value.as_object() {
-            if object.contains_key("command"){
+            if object.contains_key("command") {
                 println!("Recived command at: {}", chrono::offset::Local::now());
                 println!("{:#?}", &value);
             } else {
                 sleep(Duration::from_secs(7)).await;
             }
         }
-        
     }
 }

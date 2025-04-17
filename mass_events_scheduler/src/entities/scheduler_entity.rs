@@ -23,7 +23,8 @@ pub struct NextScheduleResponse {
 }
 impl NextScheduleResponse {
     pub(crate) fn with(schedule: Schedule, job_and_tick: u64) -> Self {
-        let next = DateTime::<Utc>::from_timestamp(job_and_tick as i64, 0).expect("Could not create a new DateTime<Utc>");
+        let next = DateTime::<Utc>::from_timestamp(job_and_tick as i64, 0)
+            .expect("Could not create a new DateTime<Utc>");
         Self {
             id: schedule.id,
             cron_line: schedule.cron_line,

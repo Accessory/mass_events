@@ -26,7 +26,9 @@ pub struct TransactionObject {
 unsafe impl Send for TransactionObject {}
 
 impl TransactionObject {
-    pub fn new(transaction: *mut Transaction<'static, Postgres>) -> Self { Self { transaction } }
+    pub fn new(transaction: *mut Transaction<'static, Postgres>) -> Self {
+        Self { transaction }
+    }
 
     // pub async fn commit(self) -> Result<(), sqlx::Error> {
     //     Ok(unsafe { ptr::read(self.transaction).commit() }.await?)
@@ -34,6 +36,7 @@ impl TransactionObject {
     // pub async fn rollback(self) -> Result<(), sqlx::Error> {
     //     Ok(unsafe { ptr::read(self.transaction).rollback() }.await?)
     // }
+    #[allow(clippy::mut_from_ref)]
     pub fn get_connection_ref(&self) -> &mut Transaction<'static, Postgres> {
         unsafe { &mut *self.transaction }
     }

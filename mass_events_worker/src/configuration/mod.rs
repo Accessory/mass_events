@@ -10,6 +10,10 @@ pub struct Configuration {
 
 impl std::fmt::Display for Configuration {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "mass_events_process_runner_base_url: {}", &self.mass_events_process_runner_base_url)
+        writeln!(
+            f,
+            "mass_events_process_runner_base_url: {}",
+            &self.mass_events_process_runner_base_url
+        )
     }
 }

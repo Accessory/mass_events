@@ -6,8 +6,8 @@ pub struct DeleteQueueTemplate<'a> {
     pub queue_name: &'a str,
 }
 
-impl<'a> DeleteQueueTemplate<'a> {
-    pub fn new(queue_name: &'a str) -> Self {
-        Self { queue_name }
-    }
-}
+// impl<'a> DeleteQueueTemplate<'a> {
+//     pub fn new(queue_name: &'a str) -> Self {
+//         Self { queue_name }
+//     }
+// }

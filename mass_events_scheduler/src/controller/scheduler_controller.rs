@@ -1,15 +1,15 @@
 use std::sync::Arc;
 
 use axum::{
+    Json, Router,
     extract::{self, State},
     http::StatusCode,
     routing::{get, post},
-    Json, Router,
 };
 use tracing::warn;
 
 use crate::{
-    entities::scheduler_entity::{CreateScheduleRequest, Schedule, NextScheduleResponse},
+    entities::scheduler_entity::{CreateScheduleRequest, NextScheduleResponse, Schedule},
     service::{
         scheduler_error::SchedulerError::{CronError, SQLError},
         scheduler_service::SchedulerService,

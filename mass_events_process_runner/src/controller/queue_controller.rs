@@ -1,17 +1,15 @@
 use std::sync::Arc;
 
 use axum::{
+    Json, Router,
     extract::{self, State},
     http::StatusCode,
-    routing::{get, delete, post},
-    Json, Router,
+    routing::{delete, get, post},
 };
-use mass_events_process_runner_models::queue::{QueueRequest, Queue};
-use mass_events_utils::{validate_trait::Validate, return_utils::log_return_internal_server_error};
+use mass_events_process_runner_models::queue::{Queue, QueueRequest};
+use mass_events_utils::{return_utils::log_return_internal_server_error, validate_trait::Validate};
 
-use crate::{
-    service::queue_service::QueueService,
-};
+use crate::service::queue_service::QueueService;
 
 pub fn new_router(queue_service: Arc<QueueService>) -> Router {
     Router::new()

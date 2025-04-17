@@ -1,5 +1,3 @@
-#![feature(async_closure)]
-
 mod app_state;
 mod configuration;
 mod controller;
@@ -10,13 +8,12 @@ mod templates;
 use crate::controller::{process_controller, queue_controller};
 use crate::service::process_service::ProcessService;
 use crate::service::queue_service::QueueService;
-use axum::{routing::get, Router};
+use axum::{Router, routing::get};
 use clap::Parser;
 use configuration::Configuration;
 use serde_merge::omerge;
-use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 use sqlx::ConnectOptions;
-use tokio::sync::RwLock;
+use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
 use tower_http::trace::TraceLayer;
 use tracing::Level;
 use utoipa::OpenApi;
@@ -25,8 +22,8 @@ use utoipa_swagger_ui::SwaggerUi;
 use std::str::FromStr;
 use std::{fs::File, io::BufReader, sync::Arc, time::Duration};
 
-use crate::open_api::{redirect_to_openapi, ApiDoc};
-use crate::{app_state::AppState, configuration::FileConfiguration};
+use crate::configuration::FileConfiguration;
+use crate::open_api::{ApiDoc, redirect_to_openapi};
 
 #[tokio::main]
 async fn main() {
@@ -54,7 +51,7 @@ async fn main() {
         .await
         .expect("Can't connect to database");
 
-    let _app_state = Arc::new(RwLock::new(AppState::new_with(pool.clone()).await));
+    // let _app_state = Arc::new(RwLock::new(AppState::new_with(pool.clone()).await));
 
     let queue_service: Arc<QueueService> = Arc::new(QueueService::new(pool.clone()));
     let process_service: Arc<ProcessService> =
@@ -87,7 +84,7 @@ fn init_configuration() -> Configuration {
         let file = File::open(cf).expect("Failed to open the configuration File at: {cf}");
         let reader = BufReader::new(file);
         let config: FileConfiguration =
-            serde_yaml::from_reader(reader).expect("Config file could not be parsed");
+            serde_yml::from_reader(reader).expect("Config file could not be parsed");
         configuration = omerge(configuration, config).expect("Failed to merge configs");
     }
     println!("{}", &configuration);

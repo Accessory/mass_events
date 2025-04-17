@@ -3,11 +3,7 @@ use mass_events_process_runner_models::queue::Queue;
 use mass_events_utils::db_utils;
 use sqlx::{Error, Pool, Postgres};
 
-use crate::{
-    templates::sql::{
-        create_queue_template::CreateQueueTemplate, delete_queue_template::DeleteQueueTemplate,
-    },
-};
+use crate::templates::sql::create_queue_template::CreateQueueTemplate;
 
 pub struct QueueService {
     pool: Pool<Postgres>,
@@ -15,7 +11,7 @@ pub struct QueueService {
 
 impl QueueService {
     pub fn new(pool: Pool<Postgres>) -> Self {
-        Self { pool: pool }
+        Self { pool }
     }
 
     pub async fn list_all_queues(&self) -> Result<Vec<Queue>, Error> {
@@ -45,12 +41,12 @@ impl QueueService {
         Ok(())
     }
 
-    pub async fn delete_queue(&self, name: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let sql_template = DeleteQueueTemplate::new(name);
-        let sql = sql_template.render()?;
-
-        db_utils::execute_transaction(&sql, &self.pool).await?;
-
-        Ok(())
-    }
+    // pub async fn delete_queue(&self, name: &str) -> Result<(), Box<dyn std::error::Error>> {
+    //     let sql_template = DeleteQueueTemplate::new(name);
+    //     let sql = sql_template.render()?;
+    //
+    //     db_utils::execute_transaction(&sql, &self.pool).await?;
+    //
+    //     Ok(())
+    // }
 }

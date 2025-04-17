@@ -1,6 +1,5 @@
-
 #[derive(Debug)]
-pub enum SchedulerError{
+pub enum SchedulerError {
     SQLError(sqlx::Error),
     CronError(cron::error::Error),
 }

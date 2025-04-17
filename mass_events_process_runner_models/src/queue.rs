@@ -13,7 +13,9 @@ pub struct QueueRequest {
 }
 
 impl QueueRequest {
-    pub fn new(queue: String) -> Self { Self { queue } }
+    pub fn new(queue: String) -> Self {
+        Self { queue }
+    }
 }
 
 impl Validate for QueueRequest {

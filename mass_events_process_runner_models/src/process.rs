@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use utoipa::{ToSchema, IntoParams};
+use utoipa::{IntoParams, ToSchema};
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema)]
 pub struct Process {
@@ -15,5 +15,7 @@ pub struct AddProcessToQueueRequest {
 }
 
 impl AddProcessToQueueRequest {
-    pub fn new(queue: String, process: serde_json::Value) -> Self { Self { queue, process } }
+    pub fn new(queue: String, process: serde_json::Value) -> Self {
+        Self { queue, process }
+    }
 }

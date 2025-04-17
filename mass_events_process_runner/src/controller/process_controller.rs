@@ -1,19 +1,17 @@
 use std::sync::Arc;
 
 use axum::{
+    Json, Router,
     extract::{self, State},
     http::StatusCode,
     response::{IntoResponse, Response},
     routing::post,
-    Json, Router,
 };
 use mass_events_process_runner_models::{process::AddProcessToQueueRequest, queue::QueueRequest};
 use mass_events_utils::return_utils::log_return_internal_server_error;
 use serde_json::json;
 
-use crate::{
-    service::process_service::{ProcessError, ProcessService},
-};
+use crate::service::process_service::{ProcessError, ProcessService};
 
 pub fn new_router(process_service: Arc<ProcessService>) -> Router {
     Router::new()

@@ -32,10 +32,7 @@ impl SchedulerService {
         if let Some(job_and_tick) = next_tick {
             let id = job_and_tick.id.as_ref().expect("Could not get job id.");
             let idu128 = u128_to_uuid(id.as_u128());
-            let db_id = borrow
-                .job_db_map
-                .get(&idu128)
-                .expect("Uuid not found.");
+            let db_id = borrow.job_db_map.get(&idu128).expect("Uuid not found.");
             let sql_result = self.get_schedule(db_id).await?;
             if sql_result.is_none() {
                 return Ok(Option::None);
@@ -49,7 +46,10 @@ impl SchedulerService {
         }
     }
 
-    pub async fn get_schedule_from_job_id(&self, id: &Uuid) -> Result<Option<Schedule>, sqlx::Error> {
+    pub async fn get_schedule_from_job_id(
+        &self,
+        id: &Uuid,
+    ) -> Result<Option<Schedule>, sqlx::Error> {
         let borrow = self.state.read().await;
         let db_id = borrow.job_db_map.get(id).expect("Job id not found.");
         self.get_schedule(db_id).await
@@ -87,7 +87,7 @@ impl SchedulerService {
         Ok(rtn)
     }
 
-        // pub async fn get_next_schedule(&self) -> Result<Option<Schedule>, sqlx::Error> {
+    // pub async fn get_next_schedule(&self) -> Result<Option<Schedule>, sqlx::Error> {
     //     let next_tick_list = self
     //         .state
     //         .scheduler

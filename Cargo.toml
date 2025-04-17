@@ -8,3 +8,41 @@ members  = [
     "mass_events_process_runner_client",
     "mass_events_process_runner",
 ]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+
+[workspace.package]
+version = "0.2.1"
+edition = "2024"
+authors = ["Accessory"]
+license = "MIT"
+
+[workspace.dependencies]
+utoipa = { version = "5", features = [
+    "axum_extras",
+    "chrono",
+    "uuid",
+    "openapi_extensions",
+] }
+utoipa-swagger-ui = { version = "9", features = ["axum"] }
+sqlx = { version = "0.8", features = [
+    "runtime-tokio-rustls",
+    "any",
+    "postgres",
+    "chrono",
+    "migrate",
+    "macros",
+    "uuid",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4", "serde", "fast-rng"] }
+tokio = { version = "1", features = ["full"] }
+tracing = "0"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+dotenvy = "0"

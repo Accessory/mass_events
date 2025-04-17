@@ -8,11 +8,11 @@ license.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-dotenvy = "0"
-clap = { version = "4", features = ["derive", "env"] }
-chrono = { version = "0.4" }
+tokio = { workspace = true }
+serde = { workspace = true }
+dotenvy = { workspace = true }
+clap = { workspace = true }
+chrono = { workspace = true }
 
 # mass_events_commons
 mass_events_process_runner_client = { path = "../mass_events_process_runner_client" }

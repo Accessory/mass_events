@@ -6,10 +6,10 @@ authors.workspace = true
 license.workspace = true
 
 [dependencies]
-reqwest = { version = "0", features = ["json"] }
-tokio = { version = "1", features = ["full"] }
-serde_json = "1"
+reqwest = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
 
 # mass_events_commons
-mass_events_process_runner_models = {path = "../mass_events_process_runner_models"}
+mass_events_process_runner_models = { path = "../mass_events_process_runner_models" }
 

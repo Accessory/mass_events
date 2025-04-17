@@ -15,4 +15,4 @@ utoipa = { workspace = true }
 sqlx = { workspace = true }
 
 # mass_events_commons
-mass_events_utils = {path = "../mass_events_utils"}
+mass_events_utils = { path = "../mass_events_utils" }

@@ -6,30 +6,24 @@ authors.workspace = true
 license.workspace = true
 
 [dependencies]
-axum = { version = "0", features = [
-    "tokio",
-    "tower-log",
-    "query",
-    "json",
-    "macros",
-] }
-tokio = { version = "1", features = ["full"] }
-tracing = "0"
-uuid = { version = "1", features = ["v4", "serde", "fast-rng"] }
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-sqlx = { workspace = true}
-dotenvy = "0.15"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+axum = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+sqlx = { workspace = true }
+dotenvy = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 serde_yaml = "0"
 serde_merge = "0"
-chrono = { version = "0.4", features = ["serde"] }
+chrono = { workspace = true }
 cron = { version = "0" }
-utoipa = { workspace = true}
+utoipa = { workspace = true }
 utoipa-swagger-ui = { workspace = true }
-clap = { version = "4", features = ["derive", "env"] }
+clap = { workspace = true }
 tokio-cron-scheduler = { version = "0", features = ["signal", "has_bytes"] }
-tower-http = { version = "0", features = ["add-extension", "trace"] }
+tower-http = { workspace = true }
 
 # mass_events_commons
 mass_events_process_runner_client = { path = "../mass_events_process_runner_client" }

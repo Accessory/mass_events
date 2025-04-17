@@ -6,13 +6,7 @@ authors.workspace = true
 license.workspace = true
 
 [dependencies]
-axum = { version = "0", features = [
-    "tokio",
-    "tower-log",
-    "query",
-    "json",
-    "macros",
-] }
+axum = { workspace = true }
 tokio = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
@@ -20,15 +14,15 @@ uuid = { workspace = true }
 sqlx = { workspace = true }
 dotenvy = { workspace = true }
 serde = { workspace = true }
-serde_json ={ workspace = true }
+serde_json = { workspace = true }
 serde_yml = "0"
 serde_merge = "0"
-utoipa = {workspace = true }
+utoipa = { workspace = true }
 utoipa-swagger-ui = { workspace = true }
-clap = { version = "4", features = ["derive", "env"] }
-tower-http = { version = "0", features = ["add-extension", "trace"] }
+clap ={ workspace = true }
+tower-http = { workspace = true }
 askama = "0"
 
 # mass_events_commons
-mass_events_utils = {path = "../mass_events_utils"}
-mass_events_process_runner_models = {path = "../mass_events_process_runner_models"}
+mass_events_utils = { path = "../mass_events_utils" }
+mass_events_process_runner_models = { path = "../mass_events_process_runner_models" }

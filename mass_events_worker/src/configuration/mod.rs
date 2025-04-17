@@ -4,7 +4,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Parser, Debug, Serialize, Deserialize)]
 #[command(author, version, about, long_about = None)]
 pub struct Configuration {
-    #[arg(short, long, default_value = "http://localhost:8456", env)]
+    #[arg(
+        short,
+        long,
+        default_value = "http://localhost:8456",
+        env = "MASS_EVENTS_PROCESS_RUNNER_BASE_URL"
+    )]
     pub mass_events_process_runner_base_url: String,
 }
 

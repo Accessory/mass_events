@@ -3,7 +3,7 @@ use serde_json::json;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = ProcessRunnerClient::new("http://localhost:8456");
+    let client = ProcessRunnerClient::new("http://127.0.0.1:8456");
 
     client
         .post_add_process(

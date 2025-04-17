@@ -4,11 +4,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Parser, Debug, Serialize, Deserialize)]
 #[command(author, version, about, long_about = None)]
 pub struct Configuration {
-    #[arg(long, default_value = "127.0.0.1", env)]
+    #[arg(long, default_value = "127.0.0.1", env = "MASS_EVENTS_IP")]
     pub ip: String,
-    #[arg(long, default_value = "8455", env)]
+    #[arg(long, default_value = "8455", env = "MASS_EVENTS_PORT")]
     pub port: u16,
-    #[arg(long, default_value = "postgres://localhost:5432/RustRobot", env)]
+    #[arg(
+        long,
+        default_value = "postgres://localhost:5432/mass_media",
+        env = "MASS_EVENTS_DATABASE_URL"
+    )]
     pub database_url: String,
     #[arg(long)]
     pub config_file: Option<String>,
